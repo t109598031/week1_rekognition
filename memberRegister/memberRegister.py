@@ -57,10 +57,10 @@ def delete_collection(collection_id):
         status_code=e.response['ResponseMetadata']['HTTPStatusCode']
     return(status_code)
 
-def create_face_data(imagePath, name): 
+def create_face_data(imagePath, name,fileFormat): 
     image2 = cv2.imread(imagePath)  
     pic = cv2.resize(image2, (640, 360), interpolation=cv2.INTER_CUBIC)
-    image = base64.b64encode(cv2.imencode('.jpg', pic)[1]).decode()
+    image = base64.b64encode(cv2.imencode(fileFormat, pic)[1]).decode()
     image_binary = base64.b64decode(image)
     faceId = []
     response=client.index_faces(CollectionId=collection_id,
@@ -119,7 +119,7 @@ def main():
     list_collections()
     # delete_collection(collection_id)
 
-    # create_face_data("C:/Users/ALEX/Desktop/Sign-in/face_image/Duncan.jpg", "Duncan")
+    # create_face_data("C:/Users/ALEX/Desktop/Sign-in/face_image/Duncan.jpg", "Duncan",".jpg")
     # list_face_data()
     # delete_face_data()
 
