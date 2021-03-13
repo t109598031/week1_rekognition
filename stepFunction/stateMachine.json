@@ -1,0 +1,56 @@
+{
+    "Comment": "RekognitionLessonV4",
+    "StartAt": "faceDetect",
+    "States": {
+      "faceDetect": {
+        "Type": "Task",
+        "Resource": "<your faceDetect lambda ARN>",
+        "Next": "isFace?"
+      },
+      "isFace?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.faceDetection.detectionResult.faceCount",
+            "NumericGreaterThan": 0,
+            "Next": "faceValidate"
+          }
+        ]
+      },
+      "faceValidate": {
+        "Type": "Task",
+        "Resource": "<your faceValidate lambda ARN>",
+        "Next": "alertMode?"
+      },
+      "alertMode?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.config.mode",
+            "NumericEquals": 1,
+            "Next": "alertNotify"
+          },
+          {
+            "And":[
+              {
+                "Variable": "$.config.mode",
+                "NumericEquals": -1
+              },
+              {
+                "Variable": "$.faceValidation.validationResult.notMemberCount",
+                "NumericGreaterThan": 0
+              }
+            ],
+            "Next": "alertNotify"
+          }
+        ]
+      },
+       "alertNotify": {
+               "Type": "Task",
+               "Resource":
+                 "<your alertNotify lambda ARN>",
+               "End": true
+             }
+
+    }
+  }
