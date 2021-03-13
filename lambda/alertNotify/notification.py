@@ -78,7 +78,7 @@ class ValidationResultMessage():
         self.text = None
         
     def __getMatchedFaceListText(self):
-        matchedFaceListText = '\t\t匹配數量：{}\n\n'.format(self.__matchedFaceCount)
+        matchedFaceListText = '匹配數量：{}\n\n'.format(self.__matchedFaceCount)
         
         for index, memberFace in enumerate(self.__matchedFaceList, start=1):
             faceCoordinate = {
@@ -88,14 +88,14 @@ class ValidationResultMessage():
             faceArea = round(memberFace['boundingBox']['Width'] * memberFace['boundingBox']['Height'], 5)
             faceSimilarity = round(memberFace['similarity'], 2)
             
-            matchedFaceListText += '\t\t\t\t[{0}] 位置：({1[X]}, {1[Y]})\n' \
-                                    '\t\t\t\t\t\t\t面積：{2}\n' \
-                                    '\t\t\t\t\t\t\t相似度：{3}%\n\n'.format(index, faceCoordinate, faceArea, faceSimilarity)
+            matchedFaceListText += '[{0}] 位置：({1[X]}, {1[Y]})\n' \
+                                    '\t面積：{2}\n' \
+                                    '\t相似度：{3}%\n\n'.format(index, faceCoordinate, faceArea, faceSimilarity)
         
         return matchedFaceListText
     
     def __getFaceDetectionListText(self):
-        faceDetectionListText = '\t\t來源人臉數量：{}\n\n'.format(self.__faceDetectionCount)
+        faceDetectionListText = '來源人臉數量：{}\n\n'.format(self.__faceDetectionCount)
         
         for index, face in enumerate(self.__faceDetectionList, start=1):
             faceCoordinate = {
@@ -105,9 +105,9 @@ class ValidationResultMessage():
             faceArea = round(face['boundingBox']['Width'] * face['boundingBox']['Height'], 5)
             faceConfidence = round(face['confidence'], 2)
             
-            faceDetectionListText += '\t\t\t\t[{0}] 位置：({1[X]}, {1[Y]})\n' \
-                                    '\t\t\t\t\t\t\t面積：{2}\n' \
-                                    '\t\t\t\t\t\t\t信心指數：{3}%\n\n'.format(index, faceCoordinate, faceArea, faceConfidence)
+            faceDetectionListText += '[{0}] 位置：({1[X]}, {1[Y]})\n' \
+                                    '\t面積：{2}\n' \
+                                    '\t信心指數：{3}%\n\n'.format(index, faceCoordinate, faceArea, faceConfidence)
                                     
         return faceDetectionListText
     
@@ -115,8 +115,8 @@ class ValidationResultMessage():
         matchedFaceListText = self.__getMatchedFaceListText()
         faceDetectionListText = self.__getFaceDetectionListText()
         self.text = '成員查驗\n\n' \
-                    '\t\t結果：{0}\n' \
-                    '\t\t時間：{1}\n\n' \
+                    '結果：{0}\n' \
+                    '時間：{1}\n\n' \
                     '{2}' \
                     '{3}'.format(self.__matchedFaceResult, self.__imageCaptureTime, matchedFaceListText, faceDetectionListText)
         
